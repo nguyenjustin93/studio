@@ -35,16 +35,16 @@ This is a monorepo-style workspace containing independent projects:
 | Directory | Description |
 |-----------|-------------|
 | `racker/` | Golf Practice OS — React Native Expo app (active, production-ready) |
-| `automations/` | Automation scripts and workflows (in development) |
-| `landing/` | Landing page(s) (in development) |
+| `automations/` | Client automation workflows (active — first client engaged) |
+| `landing/` | Landing page(s) (not started — empty directory) |
 
 Each project is self-contained with its own `package.json`, dependencies, and CLAUDE.md where applicable.
 
 ## Per-Project Guidance
 
 - **racker**: See `racker/CLAUDE.md` for full architecture, commands, and conventions.
-- **automations**: No CLAUDE.md yet — explore directory for context.
-- **landing**: No CLAUDE.md yet — explore directory for context.
+- **automations**: See `automations/CLAUDE.md` for purpose, structure, and current client work.
+- **landing**: No CLAUDE.md yet — empty directory, not started.
 
 ## Working in This Repo
 
