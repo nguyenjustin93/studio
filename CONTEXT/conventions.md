@@ -2,6 +2,16 @@
 
 Coding patterns, naming rules, and structural conventions used across studio.
 
+## Tool Selection
+
+For any task, use the right Claude tool:
+
+- **Thinking, planning, deciding** → Claude Chat
+- **File operations, knowledge work, communications** → Claude Cowork
+- **Code, terminal, git** → Claude Code
+
+See `CONTEXT/tools-and-workflow.md` for detailed rules.
+
 ## General
 
 - Direct, no-fluff communication style mirrors how Justin writes

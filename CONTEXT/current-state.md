@@ -2,7 +2,14 @@
 
 What exists right now. Update this as things ship.
 
-Last updated: 2026-05-13
+Last updated: 2026-05-14
+
+## Operating model
+
+- Three-tool model adopted: Claude Chat (strategy), Claude Cowork (knowledge work), Claude Code (coding/git)
+- Wispr Flow integrated into daily workflow for voice-driven brain dumps to Chat
+- Cowork handles context file updates, Notion management, calendar, and client comms
+- See `CONTEXT/tools-and-workflow.md` for decision rules
 
 ## Studio infrastructure
 

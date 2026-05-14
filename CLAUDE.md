@@ -28,6 +28,16 @@ Racker is the first shipped product; automations and landing pages are next.
 - **Apps**: React Native, Expo, Supabase, RevenueCat, Stripe
 - **AI**: Claude Code, Claude.ai, Cursor
 
+## Tool Stack
+
+This repo is operated through three Claude tools, each with a specific role:
+
+- **Claude Chat** (this conversation interface) — Strategy, planning, thinking. The "what" and "why" of decisions.
+- **Claude Cowork** (desktop app) — Autonomous knowledge work. Context updates, Notion management, client document analysis, communications.
+- **Claude Code** (this tool, terminal) — Autonomous code execution. Racker builds, automation workflows, git operations.
+
+When in doubt about which tool handles a task, see `CONTEXT/tools-and-workflow.md`.
+
 ## Workspace Structure
 
 This is a monorepo-style workspace containing independent projects:
@@ -52,6 +62,8 @@ Each project is self-contained with its own `package.json`, dependencies, and CL
 - Projects do not share dependencies or configuration.
 
 ## Session Workflow
+
+> **Note:** Claude Code handles code execution and git operations. Context file updates and Notion management are better handled by **Claude Cowork** — use it for those tasks instead of doing them here.
 
 ### At session start
 
