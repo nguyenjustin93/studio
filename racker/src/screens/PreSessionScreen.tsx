@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { colors } from '../theme';
 import { BucketSize, TemplateType, Session } from '../types';
 import { getBlocksForTemplate } from '../config/templates';
-import { saveActiveSession } from '../storage/sessions';
+import { saveActiveSession, getActiveSession, clearActiveSession } from '../storage/sessions';
 
 type RootStackParamList = {
   PreSession: undefined;
@@ -36,6 +36,24 @@ export default function PreSessionScreen({ navigation }: Props) {
   const [bucketSize, setBucketSize] = useState<BucketSize>('Medium');
   const [template, setTemplate] = useState<TemplateType>('Full Bag');
   const [focusNote, setFocusNote] = useState('');
+  const [recoveredSession, setRecoveredSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    getActiveSession().then((session) => {
+      if (session) setRecoveredSession(session);
+    });
+  }, []);
+
+  const handleResume = () => {
+    if (!recoveredSession) return;
+    setRecoveredSession(null);
+    navigation.navigate('ActiveSession', { session: recoveredSession });
+  };
+
+  const handleDiscard = async () => {
+    await clearActiveSession();
+    setRecoveredSession(null);
+  };
 
   const handleStart = async () => {
     const blocks = getBlocksForTemplate(
@@ -66,6 +84,33 @@ export default function PreSessionScreen({ navigation }: Props) {
     >
       <Text style={styles.title}>Racker</Text>
       <Text style={styles.subtitle}>Golf Practice OS</Text>
+
+      {recoveredSession && (
+        <View style={styles.resumeCard}>
+          <Text style={styles.resumeTitle}>Resume Session?</Text>
+          <Text style={styles.resumeDetail}>
+            {recoveredSession.template} · Block {recoveredSession.activeBlockIndex + 1} of {recoveredSession.blocks.length}
+          </Text>
+          <View style={styles.resumeActions}>
+            <TouchableOpacity
+              style={[styles.resumeButton, styles.resumeButtonDiscard]}
+              onPress={handleDiscard}
+              accessibilityLabel="Discard session"
+              activeOpacity={0.7}
+            >
+              <Text style={styles.resumeButtonTextDiscard}>Discard</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.resumeButton, styles.resumeButtonResume]}
+              onPress={handleResume}
+              accessibilityLabel="Resume session"
+              activeOpacity={0.8}
+            >
+              <Text style={styles.resumeButtonTextResume}>Resume</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
 
       <View style={styles.section}>
         <Text style={styles.label}>Bucket Size</Text>
@@ -239,5 +284,52 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: colors.white,
     letterSpacing: 2,
+  },
+  resumeCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    padding: 16,
+    marginBottom: 24,
+  },
+  resumeTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: 4,
+  },
+  resumeDetail: {
+    fontSize: 13,
+    color: colors.textMuted,
+    marginBottom: 12,
+  },
+  resumeActions: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  resumeButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  resumeButtonDiscard: {
+    backgroundColor: colors.surfaceLight,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  resumeButtonResume: {
+    backgroundColor: colors.primary,
+  },
+  resumeButtonTextDiscard: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.text,
+  },
+  resumeButtonTextResume: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.white,
   },
 });
